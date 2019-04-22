@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Quem Academy</string>
+    <string name="novo_planejamento">Novo Planejamento</string>
+    <string name="disciplinas_cursadas">Disciplinas Cursadas</string>
+    <string name="detalhar_planejamento">Detalhar Planejamento</string>
+    <string name="nova_disciplina">Nova Disciplina</string>
 </resources>
