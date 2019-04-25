@@ -48,5 +48,10 @@ public class Disciplinas {
     }
 
     public Disciplinas() {
+        this.materia = new Materias();
+        this.ano = 2019;
+        this.horas = 20;
+        this.porcentagem = 30;
+        this.semestre = 5;
     }
 }

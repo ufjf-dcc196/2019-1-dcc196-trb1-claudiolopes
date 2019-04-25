@@ -1,10 +1,13 @@
 package ufjf.dcc196.quemacademy;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +16,11 @@ import Persistence.Disciplinas;
 
 public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapter.ViewHolder>{
 
-    private final List<Disciplinas> disciplinas;
+    private final Disciplinas disciplinas;
     private OnPlanejamentoAdapterClickListener listener;
 
-    public PlanejamentoAdapter() {
-        disciplinas = new ArrayList<>();
+    public PlanejamentoAdapter(Disciplinas disciplina) {
+        this.disciplinas = disciplina;
     }
 
     public void setOnPlanejamentoAdapterClickListener(OnPlanejamentoAdapterClickListener listener) {
@@ -27,12 +30,20 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
     @NonNull
     @Override
     public PlanejamentoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return null;
+        Context context = viewGroup.getContext();
+        LayoutInflater inlf = LayoutInflater.from(context);
+        View linha = inlf.inflate(R.layout.activity_planejamento, viewGroup, false);
+        ViewHolder vh = new ViewHolder(linha);
+        return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlanejamentoAdapter.ViewHolder viewHolder, int i) {
-
+            Disciplinas disc = this.disciplinas;
+            viewHolder.textAno.setText(disc.getAno());
+            viewHolder.textSimester.setText(disc.getSemestre());
+            viewHolder.textPorcentagem.setText(disc.getPorcentagem());
+            viewHolder.textTotalHoras.setText(disc.getHoras());
     }
 
     @Override
@@ -41,6 +52,11 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView textAno;
+        public TextView textSimester;
+        public TextView textPorcentagem;
+        public TextView textTotalHoras;
+
         @Override
         public void onClick(View v) {
             int possition = getAdapterPosition();
@@ -51,6 +67,18 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            textAno = itemView.findViewById(R.id.textAno);
+            textSimester = itemView.findViewById(R.id.textSimester);
+            textPorcentagem = itemView.findViewById(R.id.textPorcentagem);
+            textTotalHoras = itemView.findViewById(R.id.textTotalHoras);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        listener.onPlanejamentoClick(v, getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 
