@@ -1,6 +1,8 @@
 package ufjf.dcc196.quemacademy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,12 +15,15 @@ import Persistence.Disciplinas;
 
 public class PlanejamentosActivity extends AppCompatActivity {
 
-    public Disciplinas diciplina = new Disciplinas();
+    public Disciplinas diciplina;
+    public static final int REQUEST_MAIN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planejamentos);
+
+        diciplina = new Disciplinas();
 
         Button botaoNovoPlanejamento = findViewById(R.id.botaoNovoPlanejamento);
         Button botaoNovaDisciplina = findViewById(R.id.botaoNovaDisciplina);
@@ -27,16 +32,16 @@ public class PlanejamentosActivity extends AppCompatActivity {
         botaoNovoPlanejamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intente = new Intent(PlanejamentosActivity.this, NovoPlanejamentoActivity.class);
-                startActivity(intente);
+                Intent intent = new Intent(PlanejamentosActivity.this, NovoPlanejamentoActivity.class);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
             }
         });
 
         botaoNovaDisciplina.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intente = new Intent(PlanejamentosActivity.this, NovaDisciplinaCursadaActivity.class);
-                startActivity(intente);
+                Intent intent = new Intent(PlanejamentosActivity.this, NovaDisciplinaCursadaActivity.class);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
             }
         });
 
@@ -44,7 +49,7 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanejamentosActivity.this, DisciplinasCursadasActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
             }
         });
 
@@ -56,8 +61,20 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onPlanejamentoClick(View v, int possition) {
                 Intent intent = new Intent(PlanejamentosActivity.this, DetalhesPlanejamentoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        if (requestCode == PlanejamentosActivity.REQUEST_MAIN){
+            if (resultCode == Activity.RESULT_OK){
+                if (data != null) {
+                    Bundle bundle = data.getExtras();
+                    diciplina = (Disciplinas) bundle.get("disciplina");
+                }
+            }
+        }
     }
 }

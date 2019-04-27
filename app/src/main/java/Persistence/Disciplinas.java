@@ -1,10 +1,15 @@
 package Persistence;
 
+import android.text.Editable;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class Disciplinas {
     private Materias materia;
     private int ano;
     private int semestre;
-    private int porcentagem;
+    private List<Integer> porcentagem;
     private int horas;
 
     public Materias getMateria() {
@@ -31,12 +36,12 @@ public class Disciplinas {
         this.semestre = semestre;
     }
 
-    public int getPorcentagem() {
-        return porcentagem;
+    public Integer getPorcentagem(int i) {
+        return porcentagem.get(i);
     }
 
     public void setPorcentagem(int porcentagem) {
-        this.porcentagem = porcentagem;
+        this.porcentagem.add(porcentagem);
     }
 
     public int getHoras() {
@@ -51,7 +56,7 @@ public class Disciplinas {
         this.materia = new Materias();
         this.ano = 2019;
         this.horas = 20;
-        this.porcentagem = 30;
+        this.porcentagem = Arrays.asList(20,20,20,20);
         this.semestre = 5;
     }
 }

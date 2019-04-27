@@ -4,4 +4,11 @@
     <string name="disciplinas_cursadas">Disciplinas Cursadas</string>
     <string name="detalhar_planejamento">Detalhar Planejamento</string>
     <string name="nova_disciplina">Nova Disciplina</string>
+    <string name="ano">Ano:</string>
+    <string name="semestre">Semestre:</string>
+    <string name="linguas">Linguas:</string>
+    <string name="exatas">Exatas:</string>
+    <string name="saude">Saude:</string>
+    <string name="humanas">Humanas:</string>
+    <string name="confirmar">Confirmar</string>
 </resources>
