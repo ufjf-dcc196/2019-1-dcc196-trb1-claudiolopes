@@ -11,12 +11,13 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 import Persistence.Disciplinas;
 
 public class NovoPlanejamentoActivity extends AppCompatActivity {
 
     Disciplinas disciplina;
-    int progressTotal = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +39,13 @@ public class NovoPlanejamentoActivity extends AppCompatActivity {
         btConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                disciplina.setAno(Integer.parseInt(etAno.getText().toString()));
-                disciplina.setSemestre(Integer.parseInt(etSemestre.getText().toString()));
-                disciplina.setPorcentagem(sbLinguas.getProgress());
-                disciplina.setPorcentagem(sbExatas.getProgress());
-                disciplina.setPorcentagem(sbSaude.getProgress());
-                disciplina.setPorcentagem(sbHumanas.getProgress());
-                disciplina.setHoras(sbLinguas.getProgress() + sbExatas.getProgress() + sbSaude.getProgress() + sbHumanas.getProgress());
                 Intent intent = new Intent();
-                intent  .putExtra("disciplina", (Parcelable) disciplina);
+                intent.putExtra("ano", Integer.parseInt(etAno.getText().toString()));
+                intent.putExtra("semestre", Integer.parseInt(etSemestre.getText().toString()));
+                intent.putExtra("linguas", sbLinguas.getProgress());
+                intent.putExtra("exatas", sbExatas.getProgress());
+                intent.putExtra("saude", sbSaude.getProgress());
+                intent.putExtra("humanas", sbHumanas.getProgress());
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

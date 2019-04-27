@@ -11,19 +11,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Persistence.Disciplinas;
 
 public class PlanejamentosActivity extends AppCompatActivity {
 
-    public Disciplinas diciplina;
+    public List<Disciplinas> diciplinas = new ArrayList<>();
     public static final int REQUEST_MAIN = 1;
+    public static final int REQUEST_DISC = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planejamentos);
 
-        diciplina = new Disciplinas();
 
         Button botaoNovoPlanejamento = findViewById(R.id.botaoNovoPlanejamento);
         Button botaoNovaDisciplina = findViewById(R.id.botaoNovaDisciplina);
@@ -41,7 +44,7 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanejamentosActivity.this, NovaDisciplinaCursadaActivity.class);
-                startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_DISC);
             }
         });
 
@@ -54,7 +57,7 @@ public class PlanejamentosActivity extends AppCompatActivity {
         });
 
         RecyclerView rv = findViewById(R.id.rvPlanejamento);
-        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(this.diciplina);
+        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(this.diciplinas);
         rv.setAdapter(pAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
         pAdapter.setOnPlanejamentoAdapterClickListener(new PlanejamentoAdapter.OnPlanejamentoAdapterClickListener() {
@@ -68,13 +71,31 @@ public class PlanejamentosActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        Disciplinas disciplina = new Disciplinas();
         if (requestCode == PlanejamentosActivity.REQUEST_MAIN){
             if (resultCode == Activity.RESULT_OK){
                 if (data != null) {
                     Bundle bundle = data.getExtras();
-                    diciplina = (Disciplinas) bundle.get("disciplina");
+                    disciplina.setAno((Integer) bundle.get("ano"));
+                    disciplina.setSemestre((Integer) bundle.get("semestre"));
+                    disciplina.setPorcentagem((Integer) bundle.get("linguas"));
+                    disciplina.setPorcentagem((Integer) bundle.get("exatas"));
+                    disciplina.setPorcentagem((Integer) bundle.get("saude"));
+                    disciplina.setPorcentagem((Integer) bundle.get("humanas"));
                 }
             }
         }
+        if (requestCode == PlanejamentosActivity.REQUEST_DISC){
+            if (resultCode == Activity.RESULT_OK){
+                if (data != null) {
+                    Bundle bundle = data.getExtras();
+                    disciplina.setHoras((int[]) bundle.get("hLinguas"), 0);
+                    disciplina.setHoras((int[]) bundle.get("hExatas"), 1);
+                    disciplina.setHoras((int[]) bundle.get("hSaude"), 2);
+                    disciplina.setHoras((int[]) bundle.get("hHumanas"), 3);
+                }
+            }
+        }
+        diciplinas.add(disciplina);
     }
 }

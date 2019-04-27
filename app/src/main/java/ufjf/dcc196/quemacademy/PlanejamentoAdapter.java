@@ -16,11 +16,11 @@ import Persistence.Disciplinas;
 
 public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapter.ViewHolder>{
 
-    private final Disciplinas disciplinas;
+    private final List<Disciplinas> items;
     private OnPlanejamentoAdapterClickListener listener;
 
-    public PlanejamentoAdapter(Disciplinas disciplina) {
-        this.disciplinas = disciplina;
+    public PlanejamentoAdapter(List<Disciplinas> disciplinas) {
+        this.items = disciplinas;
     }
 
     public void setOnPlanejamentoAdapterClickListener(OnPlanejamentoAdapterClickListener listener) {
@@ -39,11 +39,11 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlanejamentoAdapter.ViewHolder viewHolder, int i) {
-            Disciplinas disc = this.disciplinas;
+            Disciplinas disc = this.items.get(i);
             viewHolder.textAno.setText(disc.getAno());
             viewHolder.textSimester.setText(disc.getSemestre());
-            viewHolder.textPorcentagem.setText(disc.getPorcentagem(0));
-            viewHolder.textTotalHoras.setText(disc.getHoras());
+            viewHolder.textPorcentagem.setText(disc.getPorcentagem(0) + ", " + disc.getPorcentagem(1) + ", " + disc.getPorcentagem(2) + ", " + disc.getPorcentagem(3));
+            viewHolder.textTotalHoras.setText(disc.getHoras(i).toString());
     }
 
     @Override
