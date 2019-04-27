@@ -23,6 +23,7 @@ public class PlanejamentosActivity extends AppCompatActivity {
     public List<Disciplinas> diciplinas = new ArrayList<>();
     public static final int REQUEST_MAIN = 1;
     public static final int REQUEST_DISC = 2;
+    public static final int REQUEST_DET = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,8 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onPlanejamentoClick(View v, int possition) {
                 Intent intent = new Intent(PlanejamentosActivity.this, DetalhesPlanejamentoActivity.class);
-                startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
+                intent.putExtra("possition", possition);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_DET);
             }
         });
     }
@@ -96,6 +98,16 @@ public class PlanejamentosActivity extends AppCompatActivity {
                     disciplina.setHoras((int[]) bundle.get("hExatas"), 1);
                     disciplina.setHoras((int[]) bundle.get("hSaude"), 2);
                     disciplina.setHoras((int[]) bundle.get("hHumanas"), 3);
+                }
+            }
+        }
+        if (requestCode == PlanejamentosActivity.REQUEST_DET){
+            if (resultCode == Activity.RESULT_OK){
+                if (data != null) {
+                    Bundle bundle = data.getExtras();
+                    Disciplinas disc = new Disciplinas();
+                    //disc = bundle.get("disciplina");
+                    diciplinas.set((Integer) bundle.get("possition"), disc);
                 }
             }
         }

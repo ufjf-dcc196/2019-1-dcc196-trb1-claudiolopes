@@ -15,6 +15,7 @@ import Persistence.Disciplinas;
 public class DetalhesPlanejamentoActivity extends AppCompatActivity {
 
     private Disciplinas disciplina;
+    private int possition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class DetalhesPlanejamentoActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         disciplina = (Disciplinas) bundle.get("disciplina");
+        possition = (int) bundle.get("possition");
 
 
         final TextView tvLinguas = findViewById(R.id.tvLinguasD);
@@ -132,12 +134,14 @@ public class DetalhesPlanejamentoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("ano", Integer.parseInt(etAno.getText().toString()));
-                intent.putExtra("semestre", Integer.parseInt(etSemestre.getText().toString()));
-                intent.putExtra("linguas", sbLinguas.getProgress());
-                intent.putExtra("exatas", sbExatas.getProgress());
-                intent.putExtra("saude", sbSaude.getProgress());
-                intent.putExtra("humanas", sbHumanas.getProgress());
+                disciplina.setAno(Integer.parseInt(etAno.getText().toString()));
+                disciplina.setSemestre(Integer.parseInt(etSemestre.getText().toString()));
+                disciplina.setPorcentagem(sbLinguas.getProgress(), 0);
+                disciplina.setPorcentagem(sbExatas.getProgress(), 1);
+                disciplina.setPorcentagem(sbSaude.getProgress(), 2);
+                disciplina.setPorcentagem(sbHumanas.getProgress(), 3);
+                //intent.putExtra("disciplina", disciplina);
+                intent.putExtra("possition", possition);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

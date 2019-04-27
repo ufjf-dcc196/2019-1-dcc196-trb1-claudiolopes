@@ -51,6 +51,10 @@ public class Disciplinas {
         this.horas[area] = horas;
     }
 
+    public void setPorcentagem(int porcentagem, int mat){
+        this.porcentagem.set(mat, porcentagem);
+    }
+
     public Disciplinas() {
 
     }
