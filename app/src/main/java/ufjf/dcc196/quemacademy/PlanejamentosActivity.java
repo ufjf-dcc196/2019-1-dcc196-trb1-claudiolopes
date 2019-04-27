@@ -2,6 +2,7 @@ package ufjf.dcc196.quemacademy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,7 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanejamentosActivity.this, NovaDisciplinaCursadaActivity.class);
+                intent.putExtra("disciplinas", (Serializable) diciplinas);
                 startActivityForResult(intent, PlanejamentosActivity.REQUEST_DISC);
             }
         });
