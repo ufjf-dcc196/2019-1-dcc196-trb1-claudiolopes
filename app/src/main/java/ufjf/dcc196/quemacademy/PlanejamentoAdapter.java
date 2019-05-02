@@ -43,7 +43,7 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
             viewHolder.textAno.setText(disc.getAno());
             viewHolder.textSimester.setText(disc.getSemestre());
             viewHolder.textPorcentagem.setText(disc.getPorcentagem(0) + ", " + disc.getPorcentagem(1) + ", " + disc.getPorcentagem(2) + ", " + disc.getPorcentagem(3));
-            viewHolder.textTotalHoras.setText(disc.getHoras(i).toString());
+            viewHolder.textTotalHoras.setText(disc.getHoras(i));
     }
 
     @Override

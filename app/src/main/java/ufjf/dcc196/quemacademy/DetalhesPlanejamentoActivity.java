@@ -134,13 +134,13 @@ public class DetalhesPlanejamentoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                disciplina.setAno(Integer.parseInt(etAno.getText().toString()));
-                disciplina.setSemestre(Integer.parseInt(etSemestre.getText().toString()));
-                disciplina.setPorcentagem(sbLinguas.getProgress(), 0);
-                disciplina.setPorcentagem(sbExatas.getProgress(), 1);
-                disciplina.setPorcentagem(sbSaude.getProgress(), 2);
-                disciplina.setPorcentagem(sbHumanas.getProgress(), 3);
-                //intent.putExtra("disciplina", disciplina);
+                //disciplina.setPorcentagem(sbHumanas.getProgress(), 3);
+                intent.putExtra("ano", Integer.parseInt(etAno.getText().toString()));
+                intent.putExtra("semestre", Integer.parseInt(etSemestre.getText().toString()));
+                intent.putExtra("pLinguas", sbLinguas.getProgress());
+                intent.putExtra("pExatas", sbExatas.getProgress());
+                intent.putExtra("pSaude", sbSaude.getProgress());
+                intent.putExtra("pHumanas", sbHumanas.getProgress());
                 intent.putExtra("possition", possition);
                 setResult(Activity.RESULT_OK, intent);
                 finish();

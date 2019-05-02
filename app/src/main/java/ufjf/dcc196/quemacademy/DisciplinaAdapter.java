@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import Persistence.Materias;
+import java.util.List;
+
+import Persistence.Disciplinas;
 
 public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.ViewHolder> {
 
-    private Materias materias;
     private OnDisciplinaAdapterClickListener listener;
 
-    public DisciplinaAdapter(){
+    public DisciplinaAdapter(List<Disciplinas> disciplinas){
 
     }
 
@@ -35,8 +36,6 @@ public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull DisciplinaAdapter.ViewHolder viewHolder, int i) {
-        materias = new Materias();
-        viewHolder.textTitulo.setText(materias.getExatas(i));
         viewHolder.textHoras.setText("10");
         viewHolder.textArea.setText("Exatas");
     }

@@ -20,16 +20,20 @@ import Persistence.Disciplinas;
 
 public class PlanejamentosActivity extends AppCompatActivity {
 
-    public List<Disciplinas> diciplinas = new ArrayList<>();
+    public List<Disciplinas> disciplinas = new ArrayList<>();
     public static final int REQUEST_MAIN = 1;
     public static final int REQUEST_DISC = 2;
     public static final int REQUEST_DET = 3;
+
+    Disciplinas d = new Disciplinas();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planejamentos);
 
+        popula();
 
         Button botaoNovoPlanejamento = findViewById(R.id.botaoNovoPlanejamento);
         Button botaoNovaDisciplina = findViewById(R.id.botaoNovaDisciplina);
@@ -47,7 +51,6 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanejamentosActivity.this, NovaDisciplinaCursadaActivity.class);
-                intent.putExtra("disciplinas", (Serializable) diciplinas);
                 startActivityForResult(intent, PlanejamentosActivity.REQUEST_DISC);
             }
         });
@@ -56,12 +59,13 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanejamentosActivity.this, DisciplinasCursadasActivity.class);
+                //intent.putExtra("disciplinas", disciplinas);
                 startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
             }
         });
 
         RecyclerView rv = findViewById(R.id.rvPlanejamento);
-        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(this.diciplinas);
+        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(this.disciplinas);
         rv.setAdapter(pAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
         pAdapter.setOnPlanejamentoAdapterClickListener(new PlanejamentoAdapter.OnPlanejamentoAdapterClickListener() {
@@ -94,10 +98,10 @@ public class PlanejamentosActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK){
                 if (data != null) {
                     Bundle bundle = data.getExtras();
-                    disciplina.setHoras((int[]) bundle.get("hLinguas"), 0);
-                    disciplina.setHoras((int[]) bundle.get("hExatas"), 1);
-                    disciplina.setHoras((int[]) bundle.get("hSaude"), 2);
-                    disciplina.setHoras((int[]) bundle.get("hHumanas"), 3);
+                    disciplina.setHoras((int) bundle.get("hLinguas"));
+                    disciplina.setHoras((int) bundle.get("hExatas"));
+                    disciplina.setHoras((int) bundle.get("hSaude"));
+                    disciplina.setHoras((int) bundle.get("hHumanas"));
                 }
             }
         }
@@ -106,11 +110,31 @@ public class PlanejamentosActivity extends AppCompatActivity {
                 if (data != null) {
                     Bundle bundle = data.getExtras();
                     Disciplinas disc = new Disciplinas();
-                    //disc = bundle.get("disciplina");
-                    diciplinas.set((Integer) bundle.get("possition"), disc);
+                    disc.setAno((Integer) bundle.get("ano"));
+                    disc.setSemestre((Integer) bundle.get("semestre"));
+                    disc.setPorcentagem((Integer) bundle.get("pLinguas"), 0);
+                    disc.setPorcentagem((Integer) bundle.get("pExatas"), 1);
+                    disc.setPorcentagem((Integer) bundle.get("pSaude"),2);
+                    disc.setPorcentagem((Integer) bundle.get("pHumanas"), 3);
+                    disciplinas.set((Integer) bundle.get("possition"), disc);
                 }
             }
         }
-        diciplinas.add(disciplina);
+        disciplinas.add(disciplina);
+    }
+
+    public void popula (){
+        d.setAno(2019);
+        d.setSemestre(3);
+        d.setPorcentagem(25);
+        d.setPorcentagem(25);
+        d.setPorcentagem(25);
+        d.setPorcentagem(25);
+        d.setHoras(4);
+        d.setHoras(4);
+        d.setHoras(4);
+        d.setHoras(4);
+
+        disciplinas.add(d);
     }
 }

@@ -2,22 +2,15 @@ package Persistence;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Disciplinas {
-    private Materias materia;
     private int ano;
     private int semestre;
-    private List<Integer> porcentagem;
-    private int horas[][];
-
-    public Materias getMateria() {
-        return materia;
-    }
-
-    public void setMateria(Materias materia) {
-        this.materia = materia;
-    }
+    private List<Integer> porcentagem = new ArrayList<Integer>();
+    private List<Integer> horas = new ArrayList<Integer>();
 
     public int getAno() {
         return ano;
@@ -43,12 +36,12 @@ public class Disciplinas {
         this.porcentagem.add(porcentagem);
     }
 
-    public int[] getHoras(int area) {
-        return horas[area];
+    public int getHoras(int area) {
+        return horas.get(area);
     }
 
-    public void setHoras(int[] horas, int area) {
-        this.horas[area] = horas;
+    public void setHoras(int horas) {
+        this.horas.add(horas);
     }
 
     public void setPorcentagem(int porcentagem, int mat){

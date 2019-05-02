@@ -8,11 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Persistence.Disciplinas;
 
 public class DisciplinasCursadasActivity extends AppCompatActivity {
 
-    private Disciplinas disciplinas;
+    public List<Disciplinas> disciplinas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +23,11 @@ public class DisciplinasCursadasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_disciplinas_cursadas);
 
         Bundle bundle = new Bundle();
-        //disciplinas = (Disciplinas) bundle.get(disciplinas);
+        this.disciplinas = (List<Disciplinas>) bundle.get("Disciplinas");
 
         RecyclerView rv = findViewById(R.id.rvDisciplinas);
-        //DisciplinaAdapter pAdapter = new DisciplinaAdapter(this.disciplinas);
-        DisciplinaAdapter pAdapter = new DisciplinaAdapter();
+        DisciplinaAdapter pAdapter = new DisciplinaAdapter(this.disciplinas);
         rv.setAdapter(pAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
     }
 }
