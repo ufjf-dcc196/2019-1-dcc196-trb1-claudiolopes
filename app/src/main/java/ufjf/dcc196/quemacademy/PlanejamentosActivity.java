@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import Persistence.Dados;
 import Persistence.Disciplinas;
 
 public class PlanejamentosActivity extends AppCompatActivity {
@@ -59,7 +60,8 @@ public class PlanejamentosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanejamentosActivity.this, DisciplinasCursadasActivity.class);
-                //intent.putExtra("disciplinas", disciplinas);
+                Dados dados = Dados.getInstance();
+                dados.setDisciplinas(disciplinas);
                 startActivityForResult(intent, PlanejamentosActivity.REQUEST_MAIN);
             }
         });
@@ -71,8 +73,10 @@ public class PlanejamentosActivity extends AppCompatActivity {
         pAdapter.setOnPlanejamentoAdapterClickListener(new PlanejamentoAdapter.OnPlanejamentoAdapterClickListener() {
             @Override
             public void onPlanejamentoClick(View v, int possition) {
+                Dados dados = Dados.getInstance();
+                dados.setDisciplina(disciplinas.get(possition));
+                dados.setPosicao(possition);
                 Intent intent = new Intent(PlanejamentosActivity.this, DetalhesPlanejamentoActivity.class);
-                intent.putExtra("possition", possition);
                 startActivityForResult(intent, PlanejamentosActivity.REQUEST_DET);
             }
         });
@@ -91,6 +95,11 @@ public class PlanejamentosActivity extends AppCompatActivity {
                     disciplina.setPorcentagem((Integer) bundle.get("exatas"));
                     disciplina.setPorcentagem((Integer) bundle.get("saude"));
                     disciplina.setPorcentagem((Integer) bundle.get("humanas"));
+                    disciplina.setHoras(0);
+                    disciplina.setHoras(0);
+                    disciplina.setHoras(0);
+                    disciplina.setHoras(0);
+                    rvPopula();
                 }
             }
         }
@@ -110,13 +119,18 @@ public class PlanejamentosActivity extends AppCompatActivity {
                 if (data != null) {
                     Bundle bundle = data.getExtras();
                     Disciplinas disc = new Disciplinas();
-                    disc.setAno((Integer) bundle.get("ano"));
-                    disc.setSemestre((Integer) bundle.get("semestre"));
-                    disc.setPorcentagem((Integer) bundle.get("pLinguas"), 0);
-                    disc.setPorcentagem((Integer) bundle.get("pExatas"), 1);
-                    disc.setPorcentagem((Integer) bundle.get("pSaude"),2);
-                    disc.setPorcentagem((Integer) bundle.get("pHumanas"), 3);
-                    disciplinas.set((Integer) bundle.get("possition"), disc);
+                    disc.setAno((int) bundle.get("ano"));
+                    disc.setSemestre((int) bundle.get("semestre"));
+                    disc.setPorcentagem((int) bundle.get("pLinguas"));
+                    disc.setPorcentagem((int) bundle.get("pExatas"));
+                    disc.setPorcentagem((int) bundle.get("pSaude"));
+                    disc.setPorcentagem((int) bundle.get("pHumanas"));
+                    disciplina.setHoras(0,0);
+                    disciplina.setHoras(0,1);
+                    disciplina.setHoras(0,2);
+                    disciplina.setHoras(0,3);
+                    disciplinas.set((int) bundle.get("possition"), disc);
+                    rvPopula();
                 }
             }
         }
@@ -136,5 +150,20 @@ public class PlanejamentosActivity extends AppCompatActivity {
         d.setHoras(4);
 
         disciplinas.add(d);
+    }
+
+    private void rvPopula(){
+        RecyclerView rv = findViewById(R.id.rvPlanejamento);
+        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(this.disciplinas);
+        rv.setAdapter(pAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        pAdapter.setOnPlanejamentoAdapterClickListener(new PlanejamentoAdapter.OnPlanejamentoAdapterClickListener() {
+            @Override
+            public void onPlanejamentoClick(View v, int possition) {
+                Intent intent = new Intent(PlanejamentosActivity.this, DetalhesPlanejamentoActivity.class);
+                intent.putExtra("possition", possition);
+                startActivityForResult(intent, PlanejamentosActivity.REQUEST_DET);
+            }
+        });
     }
 }

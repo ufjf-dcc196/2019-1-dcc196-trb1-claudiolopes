@@ -48,8 +48,15 @@ public class Disciplinas {
         this.porcentagem.set(mat, porcentagem);
     }
 
-    public Disciplinas() {
+    public List<Integer> getHoras(){
+        return this.horas;
+    }
 
+    public void setHoras(int horas, int posicao){
+        this.horas.add(posicao, horas);
+    }
+
+    public Disciplinas() {
     }
 
 }

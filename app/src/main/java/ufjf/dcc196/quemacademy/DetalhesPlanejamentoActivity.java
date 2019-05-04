@@ -10,21 +10,19 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import Persistence.Dados;
 import Persistence.Disciplinas;
 
 public class DetalhesPlanejamentoActivity extends AppCompatActivity {
 
     private Disciplinas disciplina;
-    private int possition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_planejamento);
 
-        Bundle bundle = new Bundle();
-        disciplina = (Disciplinas) bundle.get("disciplina");
-        possition = (int) bundle.get("possition");
+        disciplina = Dados.getInstance().getDisciplina();
 
 
         final TextView tvLinguas = findViewById(R.id.tvLinguasD);
@@ -39,8 +37,8 @@ public class DetalhesPlanejamentoActivity extends AppCompatActivity {
         final SeekBar sbHumanas = findViewById(R.id.sbHumanasD);
         Button btConfirmar = findViewById(R.id.btConfirmarD);
 
-        etAno.setHint(disciplina.getAno());
-        etSemestre.setHint(disciplina.getSemestre());
+        etAno.setText(Integer.toString(disciplina.getAno()));
+        etSemestre.setText(Integer.toString(disciplina.getSemestre()));
         sbLinguas.setProgress(disciplina.getPorcentagem(0));
         sbExatas.setProgress(disciplina.getPorcentagem(1));
         sbSaude.setProgress(disciplina.getPorcentagem(2));
@@ -134,14 +132,13 @@ public class DetalhesPlanejamentoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                //disciplina.setPorcentagem(sbHumanas.getProgress(), 3);
                 intent.putExtra("ano", Integer.parseInt(etAno.getText().toString()));
                 intent.putExtra("semestre", Integer.parseInt(etSemestre.getText().toString()));
                 intent.putExtra("pLinguas", sbLinguas.getProgress());
                 intent.putExtra("pExatas", sbExatas.getProgress());
                 intent.putExtra("pSaude", sbSaude.getProgress());
                 intent.putExtra("pHumanas", sbHumanas.getProgress());
-                intent.putExtra("possition", possition);
+                intent.putExtra("possition", Dados.getInstance().getPosicao());
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }

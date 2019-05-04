@@ -14,10 +14,12 @@ import Persistence.Disciplinas;
 
 public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.ViewHolder> {
 
+    private final List<Disciplinas> items;
     private OnDisciplinaAdapterClickListener listener;
 
-    public DisciplinaAdapter(List<Disciplinas> disciplinas){
 
+    public DisciplinaAdapter(List<Disciplinas> disciplinas){
+        this.items = disciplinas;
     }
 
     public void setOnDisciplinaAdapterClickListener(OnDisciplinaAdapterClickListener listener){
@@ -36,13 +38,15 @@ public class DisciplinaAdapter extends RecyclerView.Adapter<DisciplinaAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull DisciplinaAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.textHoras.setText("10");
-        viewHolder.textArea.setText("Exatas");
+        Disciplinas disc = this.items.get(i);
+        viewHolder.textHoras.setText(disc.getHoras(0) + ", " + disc.getHoras(1) + ", " + disc.getHoras(2) + ", " + disc.getHoras(3));
+        viewHolder.textArea.setText("Linguas, Exatas, Saude, Humanas");
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

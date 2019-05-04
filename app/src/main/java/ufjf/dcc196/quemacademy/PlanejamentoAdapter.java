@@ -40,15 +40,15 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
     @Override
     public void onBindViewHolder(@NonNull PlanejamentoAdapter.ViewHolder viewHolder, int i) {
             Disciplinas disc = this.items.get(i);
-            viewHolder.textAno.setText(disc.getAno());
-            viewHolder.textSimester.setText(disc.getSemestre());
+            viewHolder.textAno.setText(Integer.toString(disc.getAno()));
+            viewHolder.textSimester.setText(Integer.toString(disc.getSemestre()));
             viewHolder.textPorcentagem.setText(disc.getPorcentagem(0) + ", " + disc.getPorcentagem(1) + ", " + disc.getPorcentagem(2) + ", " + disc.getPorcentagem(3));
-            viewHolder.textTotalHoras.setText(disc.getHoras(i));
+            viewHolder.textTotalHoras.setText(disc.getHoras(0) + ", " + disc.getHoras(1) + ", " + disc.getHoras(2) + ", " + disc.getHoras(3));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

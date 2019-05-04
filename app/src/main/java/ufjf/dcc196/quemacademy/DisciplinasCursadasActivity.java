@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import Persistence.Dados;
 import Persistence.Disciplinas;
 
 public class DisciplinasCursadasActivity extends AppCompatActivity {
@@ -22,8 +23,7 @@ public class DisciplinasCursadasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disciplinas_cursadas);
 
-        Bundle bundle = new Bundle();
-        this.disciplinas = (List<Disciplinas>) bundle.get("Disciplinas");
+        this.disciplinas = Dados.getInstance().getDisciplinas();
 
         RecyclerView rv = findViewById(R.id.rvDisciplinas);
         DisciplinaAdapter pAdapter = new DisciplinaAdapter(this.disciplinas);
