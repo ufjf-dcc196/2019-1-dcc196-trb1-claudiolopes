@@ -42,8 +42,12 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
             Disciplinas disc = this.items.get(i);
             viewHolder.textAno.setText(Integer.toString(disc.getAno()));
             viewHolder.textSimester.setText(Integer.toString(disc.getSemestre()));
-            viewHolder.textPorcentagem.setText(disc.getPorcentagem(0) + ", " + disc.getPorcentagem(1) + ", " + disc.getPorcentagem(2) + ", " + disc.getPorcentagem(3));
-            viewHolder.textTotalHoras.setText(disc.getHoras(0) + ", " + disc.getHoras(1) + ", " + disc.getHoras(2) + ", " + disc.getHoras(3));
+            if(disc.getPorcentagem().size() > 0) {
+                viewHolder.textPorcentagem.setText(disc.getPorcentagem(0) + ", " + disc.getPorcentagem(1) + ", " + disc.getPorcentagem(2) + ", " + disc.getPorcentagem(3));
+            }
+            if(disc.getHoras().size() > 0) {
+                viewHolder.textTotalHoras.setText(disc.getHoras(0) + ", " + disc.getHoras(1) + ", " + disc.getHoras(2) + ", " + disc.getHoras(3));
+            }
     }
 
     @Override

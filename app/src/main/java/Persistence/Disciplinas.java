@@ -32,6 +32,10 @@ public class Disciplinas {
         return porcentagem.get(i);
     }
 
+    public List<Integer> getPorcentagem(){
+        return this.porcentagem;
+    }
+
     public void setPorcentagem(int porcentagem) {
         this.porcentagem.add(porcentagem);
     }

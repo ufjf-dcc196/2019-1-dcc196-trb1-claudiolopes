@@ -107,10 +107,10 @@ public class PlanejamentosActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK){
                 if (data != null) {
                     Bundle bundle = data.getExtras();
-                    disciplina.setHoras((int) bundle.get("hLinguas"));
-                    disciplina.setHoras((int) bundle.get("hExatas"));
-                    disciplina.setHoras((int) bundle.get("hSaude"));
-                    disciplina.setHoras((int) bundle.get("hHumanas"));
+                    //disciplina.setHoras((int) bundle.get("hLinguas"));
+                    //disciplina.setHoras((int) bundle.get("hExatas"));
+                    //disciplina.setHoras((int) bundle.get("hSaude"));
+                    //disciplina.setHoras((int) bundle.get("hHumanas"));
                 }
             }
         }
