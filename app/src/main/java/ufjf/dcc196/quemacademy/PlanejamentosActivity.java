@@ -27,8 +27,6 @@ public class PlanejamentosActivity extends AppCompatActivity {
     public static final int REQUEST_DISC = 2;
     public static final int REQUEST_DET = 3;
 
-    Disciplinas d = new Disciplinas();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,22 +83,19 @@ public class PlanejamentosActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        Disciplinas disciplina = new Disciplinas();
         if (requestCode == PlanejamentosActivity.REQUEST_MAIN){
             if (resultCode == Activity.RESULT_OK){
                 if (data != null) {
                     Bundle bundle = data.getExtras();
-                    disciplina.setAno((Integer) bundle.get("ano"));
-                    disciplina.setSemestre((Integer) bundle.get("semestre"));
-                    disciplina.setPorcentagem((Integer) bundle.get("linguas"));
-                    disciplina.setPorcentagem((Integer) bundle.get("exatas"));
-                    disciplina.setPorcentagem((Integer) bundle.get("saude"));
-                    disciplina.setPorcentagem((Integer) bundle.get("humanas"));
-                    disciplina.setHoras(0);
-                    disciplina.setHoras(0);
-                    disciplina.setHoras(0);
-                    disciplina.setHoras(0);
-                    rvPopula();
+
+                    BibliotecaDbHelper bibliotecaHelper = new BibliotecaDbHelper(this);
+                    SQLiteDatabase db = bibliotecaHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Planejamento.planejamento.COLUMN_NAME_ANO, (Integer) bundle.get("ano"));
+                    values.put(Planejamento.planejamento.COLUMN_NAME_SEMESTRE, (Integer) bundle.get("semestre"));
+                    values.put(Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM, bundle.get("linguas") + "," + bundle.get("exatas") + "," + bundle.get("saude") + "," + bundle.get("humanas"));
+                    values.put(Planejamento.planejamento.COLUMN_NAME_HORAS, "0,0,0,0");
+                    long id = db.insert(Planejamento.planejamento.TABLE_NAME, null, values);
                 }
             }
         }
@@ -115,35 +110,29 @@ public class PlanejamentosActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK){
                 if (data != null) {
                     Bundle bundle = data.getExtras();
-                    Disciplinas disc = new Disciplinas();
-                    disc.setAno((int) bundle.get("ano"));
-                    disc.setSemestre((int) bundle.get("semestre"));
-                    disc.setPorcentagem((int) bundle.get("pLinguas"));
-                    disc.setPorcentagem((int) bundle.get("pExatas"));
-                    disc.setPorcentagem((int) bundle.get("pSaude"));
-                    disc.setPorcentagem((int) bundle.get("pHumanas"));
-                    disciplina.setHoras(0,0);
-                    disciplina.setHoras(0,1);
-                    disciplina.setHoras(0,2);
-                    disciplina.setHoras(0,3);
-                    disciplinas.set((int) bundle.get("possition"), disc);
-                    rvPopula();
+                    BibliotecaDbHelper bibliotecaHelper = new BibliotecaDbHelper(this);
+                    SQLiteDatabase db = bibliotecaHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put(Planejamento.planejamento.COLUMN_NAME_ANO, (Integer) bundle.get("ano"));
+                    values.put(Planejamento.planejamento.COLUMN_NAME_SEMESTRE, (Integer) bundle.get("semestre"));
+                    values.put(Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM, bundle.get("linguas") + "," + bundle.get("exatas") + "," + bundle.get("saude") + "," + bundle.get("humanas"));
+                    values.put(Planejamento.planejamento.COLUMN_NAME_HORAS, "0,0,0,0");
+                    long id = db.insert(Planejamento.planejamento.TABLE_NAME, null, values);
                 }
             }
         }
-        disciplinas.add(disciplina);
+        popula();
     }
 
     public void popula (){
 
         BibliotecaDbHelper bibliotecaHelper = new BibliotecaDbHelper(this);
-        SQLiteDatabase db = bibliotecaHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Planejamento.planejamento.COLUMN_NAME_ANO, 2019);
-        values.put(Planejamento.planejamento.COLUMN_NAME_SEMESTRE, 3);
-        values.put(Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM, "25,25,25,25");
-        values.put(Planejamento.planejamento.COLUMN_NAME_HORAS, "4,4,4,4");
-        long id = db.insert(Planejamento.planejamento.TABLE_NAME, null, values);
+        List<Disciplinas> disc = new ArrayList<>();
+
+        //SQLiteDatabase db = bibliotecaHelper.getWritableDatabase();
+        //String select = Planejamento.planejamento._ID + " = ?";
+        //String[] selectArgs = {"0"};
+        //db.delete(Planejamento.planejamento.TABLE_NAME, select, selectArgs);
 
         Cursor c;
         SQLiteDatabase dbR = bibliotecaHelper.getReadableDatabase();
@@ -164,17 +153,23 @@ public class PlanejamentosActivity extends AppCompatActivity {
         int idxPorcentagem = c.getColumnIndexOrThrow(Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM);
         int idxHoras = c.getColumnIndexOrThrow(Planejamento.planejamento.COLUMN_NAME_HORAS);
         c.moveToFirst();
-        d.setAno(c.getInt(idxAno));
-        d.setSemestre(c.getInt(idxSemestre));
-        d.setPorcentagem(c.getInt(idxPorcentagem));
-        d.setHoras(c.getInt(idxHoras));
+        while (!c.isLast()) {
+            Disciplinas d = new Disciplinas();
+            d.setAno(c.getInt(idxAno));
+            d.setSemestre(c.getInt(idxSemestre));
+            d.setPorcentagem(c.getInt(idxPorcentagem));
+            d.setHoras(c.getInt(idxHoras));
 
-        disciplinas.add(d);
+            disc.add(d);
+            c.moveToNext();
+        }
+        rvPopula(disc);
     }
 
-    private void rvPopula(){
+    private void rvPopula(List<Disciplinas> disciplinas){
+        this.disciplinas = disciplinas;
         RecyclerView rv = findViewById(R.id.rvPlanejamento);
-        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(this.disciplinas);
+        PlanejamentoAdapter pAdapter = new PlanejamentoAdapter(disciplinas);
         rv.setAdapter(pAdapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
         pAdapter.setOnPlanejamentoAdapterClickListener(new PlanejamentoAdapter.OnPlanejamentoAdapterClickListener() {
