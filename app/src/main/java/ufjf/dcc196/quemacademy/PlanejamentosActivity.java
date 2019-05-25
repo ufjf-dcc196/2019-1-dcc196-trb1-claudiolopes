@@ -1,8 +1,10 @@
 package ufjf.dcc196.quemacademy;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
-import android.os.Parcelable;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,14 +12,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import Persistence.BibliotecaDbHelper;
 import Persistence.Dados;
 import Persistence.Disciplinas;
+import Persistence.Planejamento;
 
 public class PlanejamentosActivity extends AppCompatActivity {
 
@@ -107,10 +108,6 @@ public class PlanejamentosActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK){
                 if (data != null) {
                     Bundle bundle = data.getExtras();
-                    //disciplina.setHoras((int) bundle.get("hLinguas"));
-                    //disciplina.setHoras((int) bundle.get("hExatas"));
-                    //disciplina.setHoras((int) bundle.get("hSaude"));
-                    //disciplina.setHoras((int) bundle.get("hHumanas"));
                 }
             }
         }
@@ -138,16 +135,39 @@ public class PlanejamentosActivity extends AppCompatActivity {
     }
 
     public void popula (){
-        d.setAno(2019);
-        d.setSemestre(3);
-        d.setPorcentagem(25);
-        d.setPorcentagem(25);
-        d.setPorcentagem(25);
-        d.setPorcentagem(25);
-        d.setHoras(4);
-        d.setHoras(4);
-        d.setHoras(4);
-        d.setHoras(4);
+
+        BibliotecaDbHelper bibliotecaHelper = new BibliotecaDbHelper(this);
+        SQLiteDatabase db = bibliotecaHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Planejamento.planejamento.COLUMN_NAME_ANO, 2019);
+        values.put(Planejamento.planejamento.COLUMN_NAME_SEMESTRE, 3);
+        values.put(Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM, "25,25,25,25");
+        values.put(Planejamento.planejamento.COLUMN_NAME_HORAS, "4,4,4,4");
+        long id = db.insert(Planejamento.planejamento.TABLE_NAME, null, values);
+
+        Cursor c;
+        SQLiteDatabase dbR = bibliotecaHelper.getReadableDatabase();
+        String [] visao = {
+                Planejamento.planejamento._ID,
+                Planejamento.planejamento.COLUMN_NAME_ANO,
+                Planejamento.planejamento.COLUMN_NAME_SEMESTRE,
+                Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM,
+                Planejamento.planejamento.COLUMN_NAME_HORAS,
+        };
+        String selecao = Planejamento.planejamento._ID + " >= ?";
+        String[] args = {"0"};
+        String sort = Planejamento.planejamento._ID + " DESC";
+        c = dbR.query(Planejamento.planejamento.TABLE_NAME, visao, selecao, args, null, null  , sort);
+
+        int idxAno = c.getColumnIndexOrThrow(Planejamento.planejamento.COLUMN_NAME_ANO);
+        int idxSemestre = c.getColumnIndexOrThrow(Planejamento.planejamento.COLUMN_NAME_SEMESTRE);
+        int idxPorcentagem = c.getColumnIndexOrThrow(Planejamento.planejamento.COLUMN_NAME_PORCENTAGEM);
+        int idxHoras = c.getColumnIndexOrThrow(Planejamento.planejamento.COLUMN_NAME_HORAS);
+        c.moveToFirst();
+        d.setAno(c.getInt(idxAno));
+        d.setSemestre(c.getInt(idxSemestre));
+        d.setPorcentagem(c.getInt(idxPorcentagem));
+        d.setHoras(c.getInt(idxHoras));
 
         disciplinas.add(d);
     }

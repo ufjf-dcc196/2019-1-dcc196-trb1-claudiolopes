@@ -29,7 +29,7 @@ public class Disciplinas {
     }
 
     public Integer getPorcentagem(int i) {
-        return porcentagem.get(i);
+        return porcentagem.get(0);
     }
 
     public List<Integer> getPorcentagem(){
@@ -41,7 +41,7 @@ public class Disciplinas {
     }
 
     public int getHoras(int area) {
-        return horas.get(area);
+        return horas.get(0);
     }
 
     public void setHoras(int horas) {
