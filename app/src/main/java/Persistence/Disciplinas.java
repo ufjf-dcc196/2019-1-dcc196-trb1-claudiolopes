@@ -4,6 +4,7 @@ public class Disciplinas {
     private String nome;
     private int horas;
     private String area;
+    private Planejamento planejamento;
 
     public Disciplinas() {
     }
@@ -30,5 +31,13 @@ public class Disciplinas {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public Planejamento getPlanejamento() {
+        return planejamento;
+    }
+
+    public void setPlanejamento(Planejamento planejamento) {
+        this.planejamento = planejamento;
     }
 }

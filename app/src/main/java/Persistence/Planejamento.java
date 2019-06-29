@@ -3,7 +3,6 @@ package Persistence;
 public class Planejamento {
     private int semestre;
     private int ano;
-    private Disciplinas disciplinas;
     private int[] porcentagem;
 
     public Planejamento() {
@@ -25,13 +24,6 @@ public class Planejamento {
         this.ano = ano;
     }
 
-    public Disciplinas getDisciplinas() {
-        return disciplinas;
-    }
-
-    public void setDisciplinas(Disciplinas disciplinas) {
-        this.disciplinas = disciplinas;
-    }
 
     public int[] getPorcentagem() {
         return porcentagem;

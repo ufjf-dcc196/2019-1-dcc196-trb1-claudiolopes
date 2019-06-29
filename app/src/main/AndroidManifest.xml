@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DisciplinaAdapter"></activity>
-        <activity android:name=".PlanejamentoAdapter" />
+        <activity android:name=".PlanejamentoAdapter"></activity>
+        <activity android:name=".PlanejamentosActivity" />
+        <activity android:name=".DisciplinaAdapter" />
     </application>
 
 </manifest>
