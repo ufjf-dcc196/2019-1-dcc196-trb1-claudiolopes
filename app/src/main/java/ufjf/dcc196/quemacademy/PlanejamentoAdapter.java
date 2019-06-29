@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import Persistence.BibliotecaDbHelper;
 import Persistence.ContratoBD;
 
@@ -58,7 +60,12 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
         items.moveToPosition(i);
         viewHolder.textViewSemestre.setText(items.getString(idxSemestre));
         viewHolder.textViewAno.setText(items.getString(idxAno));
-        viewHolder.textViewPorcentagem.setText(getPorcentagem(items.getString(idxId)));
+        try {
+            viewHolder.textViewPorcentagem.setText(getPorcentagem(items.getString(idxId)));
+        }catch (NullPointerException ex){
+            viewHolder.textViewPorcentagem.setText(0);
+        }
+
     }
 
     @Override
@@ -116,11 +123,14 @@ public class PlanejamentoAdapter extends RecyclerView.Adapter<PlanejamentoAdapte
         int idxHoras = c.getColumnIndexOrThrow(ContratoBD.contratoDisciplina.column_disciplina_horas);
         int cont = 0;
         String porcentagem = "";
-        while (c.getPosition() <= c.getCount()){
-            cont += c.getInt(idxHoras);
+        while (c.getPosition() <= c.getCount() - 1){
+            cont += Integer.valueOf(c.getInt(idxHoras));
+            c.moveToNext();
         }
-        while (c.getPosition() <= c.getCount()){
-            porcentagem += c.getInt(idxHoras)/cont + ", ";
+        c.moveToFirst();
+        while (c.getPosition() <= c.getCount() -1 ){
+            porcentagem += String.format("%.2f", (float)(Integer.valueOf(c.getInt(idxHoras))*100)/(float)cont) + " - ";
+            c.moveToNext();
         }
         return porcentagem;
     }
