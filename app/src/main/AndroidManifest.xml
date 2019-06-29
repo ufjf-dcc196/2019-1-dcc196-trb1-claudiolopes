@@ -11,17 +11,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DisciplinaAdapter"></activity>
         <activity android:name=".PlanejamentoAdapter" />
-        <activity android:name=".NovaDisciplinaCursadaActivity" />
-        <activity android:name=".DetalhesPlanejamentoActivity" />
-        <activity android:name=".DisciplinasCursadasActivity" />
-        <activity android:name=".NovoPlanejamentoActivity" />
-        <activity android:name=".PlanejamentosActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

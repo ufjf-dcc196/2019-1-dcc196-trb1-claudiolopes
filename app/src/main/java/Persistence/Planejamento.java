@@ -1,28 +1,43 @@
 package Persistence;
 
-import android.provider.BaseColumns;
+public class Planejamento {
+    private int semestre;
+    private int ano;
+    private Disciplinas disciplinas;
+    private int[] porcentagem;
 
-public final class Planejamento {
-    public static final String Text_Type = " TEXT";
-    public static final String Int_Type = " INTEGER";
-    public static final String Sep = ",";
-    public static final String SQL_CREATE_PLANEJAMENTO = "CREATE TABLE " + planejamento.TABLE_NAME + " (" +
-            planejamento._ID + Int_Type + " PRIMARY KEY AUTOINCREMENT" + Sep +
-            planejamento.COLUMN_NAME_ANO + Int_Type + Sep +
-            planejamento.COLUMN_NAME_SEMESTRE + Int_Type + Sep +
-            planejamento.COLUMN_NAME_PORCENTAGEM + Text_Type + Sep +
-            planejamento.COLUMN_NAME_HORAS + Text_Type + ")";
-    public static final String SQL_Drop_Planejamento = "DROP TABLE IF EXISTIS" + planejamento.TABLE_NAME;
-
-    public Planejamento(){
-
+    public Planejamento() {
     }
 
-    public static final class planejamento implements BaseColumns {
-        public static final String TABLE_NAME = "planejamento";
-        public static final String COLUMN_NAME_ANO = "ano";
-        public static final String COLUMN_NAME_SEMESTRE = "semestre";
-        public static final String COLUMN_NAME_PORCENTAGEM = "porcentagem";
-        public static final String COLUMN_NAME_HORAS = "horas";
+    public int getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
+    public Disciplinas getDisciplinas() {
+        return disciplinas;
+    }
+
+    public void setDisciplinas(Disciplinas disciplinas) {
+        this.disciplinas = disciplinas;
+    }
+
+    public int[] getPorcentagem() {
+        return porcentagem;
+    }
+
+    public void setPorcentagem(int[] porcentagem) {
+        this.porcentagem = porcentagem;
     }
 }

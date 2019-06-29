@@ -6,20 +6,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BibliotecaDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Planejamento.db";
+    public static final String DATABASE_NAME = "QuemAcademy.db";
 
-    public BibliotecaDbHelper(Context context){
+    public BibliotecaDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
     }
 
-
-    public void onCreate(SQLiteDatabase sqLiteDatabase){
-        sqLiteDatabase.execSQL(Planejamento.SQL_CREATE_PLANEJAMENTO);
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(ContratoBD.sql_create_planejamento);
+        db.execSQL(ContratoBD.sql_create_disciplina);
     }
 
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1){
-        sqLiteDatabase.execSQL(Planejamento.SQL_Drop_Planejamento);
-        onCreate(sqLiteDatabase);
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(ContratoBD.sql_drop_planejamento);
+        db.execSQL(ContratoBD.sql_drop_disciplina);
+        onCreate(db);
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion){
